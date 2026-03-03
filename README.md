@@ -1,4 +1,4 @@
-# PyMIL-BMS: Automotive-Grade MIL Test Automation Framework
+## PyMIL-BMS: MIL Test Automation Framework
 
 PyMIL-BMS is a pure Python **Model-in-the-Loop (MIL)** test automation framework designed for high-fidelity Battery Management System (BMS) validation. Built with a strict **Separation of Concerns**, it provides a scalable infrastructure for verifying complex control algorithms against automotive standards like **ASPICE SYS.4/SYS.5** and **ISO 26262**.
 
