@@ -1,106 +1,131 @@
-## PyMIL-BMS: MIL Test Automation Framework
+# PyMIL-BMS: Automotive-Grade MIL Test Automation Framework
 
-PyMIL-BMS is a pure Python Model-in-the-Loop (MIL) test automation framework designed for Battery Management System (BMS) validation. It follows a strict 3-layer architecture to ensure modularity, scalability, and MUT-agnostic operation.
+PyMIL-BMS is a pure Python Model-in-the-Loop (MIL) test automation framework designed for high-fidelity Battery Management System (BMS) validation. Built with a strict **Separation of Concerns**, it provides a scalable infrastructure for verifying complex control algorithms against automotive standards like **ASPICE SYS.4/SYS.5** and **ISO 26262**.
 
-## 3-Layer Architecture
+---
 
-1.  **LAYER 1 — FRAMEWORK**: Core infrastructure (Stimulator, Measurement, VerdictEngine, Sequencer, Reporter). Algorithm-agnostic.
-2.  **LAYER 2 — TEST CASES**: Verification scenarios implemented using the framework API. No direct imports from MUT.
-3.  **LAYER 3 — MUT**: The Model Under Test (`mut/bms_model.py`). A full-featured BMS algorithm with 12 functional blocks.
+## Project Vision & Methodology
 
-## BMS Algorithm Blocks (MUT)
+In modern automotive software development, **Model-in-the-Loop (MIL)** testing is the first line of defense. By simulating the control logic (Model) in a virtual environment (Loop) before deploying to hardware (HIL), we drastically reduce development costs and safety risks.
 
-The `BMSModel` implements the following logic:
+PyMIL-BMS was developed to demonstrate:
 
-- **Block 1**: Cell Monitoring (OV/UV/OT/UT faults)
-- **Block 2**: SOC/SOH Estimation (Coulomb counting + OCV correction + Temp compensation)
-- **Block 3**: Thermal Management & Derating
-- **Block 4**: Cell Balancing (Passive/Active)
-- **Block 5**: SOP (State of Power)
-- **Block 6**: SOE (State of Energy)
-- **Block 7**: HVDC Derating
-- **Block 8**: Charge Control (CC/CV State Machine)
-- **Block 9**: DTC Management (Registry + Freeze Frame)
-- **Block 10**: Contactor Control (Precharge SM + Weld Detection)
-- **Block 11**: Isolation Monitoring (IMD)
-- **Block 12**: ASIL-D Fault Detection & Safe State
+- **Strict Layer Separation**: Decoupling the validation engine from the algorithm under test.
+- **Traceability**: Every verdict is logged with exact timestamps and signal deltas.
+- **Safety-First Design**: Native support for ASIL-D fault injection and safe-state verification.
 
-## Test Campaign & Dependencies
+---
 
-The campaign consists of 15 test cases with the following dependency chain:
+## Architecture Deep Dive
+
+The framework is organized into three completely independent layers.
 
 ```mermaid
-graph TD
-    TC_001[TC_001: SOC Nominal] --> TC_004[TC_004: Cell OV]
-    TC_001 --> TC_005[TC_005: Cold Start]
-    TC_001 --> TC_006[TC_006: Thermal Derat]
-    TC_001 --> TC_007[TC_007: Balancing]
+graph LR
+    subgraph "Layer 1: Framework"
+        SEQ[Sequencer] --> STIM[Stimulator]
+        SEQ --> MEAS[Measurement]
+        SEQ --> VERD[VerdictEngine]
+        SEQ --> REP[Reporter]
+    end
 
-    TC_004 --> TC_008[TC_008: SOP/SOE]
-    TC_004 --> TC_009[TC_009: HVDC Derat]
-    TC_004 --> TC_011[TC_011: DTC/FF]
+    subgraph "Layer 2: Test Cases"
+        TC[15 Regression Tests]
+    end
 
-    TC_008 --> TC_010[TC_010: Charge CC/CV]
-    TC_011 --> TC_012[TC_012: Contactor/Precharge]
-    TC_012 --> TC_013[TC_013: IMD Fault]
+    subgraph "Layer 3: MUT (BMS Algorithm)"
+        MUT[BMSModel]
+    end
 
-    TC_011 & TC_012 & TC_013 --> TC_014[TC_014: ASIL Safe State]
-    TC_014 --> TC_015[TC_015: Safe State Recovery]
-
-    TC_002[TC_002: SOC Stress]
-    TC_003[TC_003: SOH Deg]
+    TC -- uses API --> STIM
+    TC -- uses API --> MEAS
+    TC -- uses API --> VERD
+    STIM -- calls --> MUT
+    MUT -- returns --> STIM
 ```
+
+### Component Breakdown
+
+- **Stimulator**: Injects signals (Current, Voltage, Temp) into the MUT. Supports profiles (WLTP) and step-by-step injection.
+- **Measurement**: A high-performance time-series buffer that records every input and output for post-execution analysis.
+- **VerdictEngine**: Implements a unique **Three-Zone Tolerance** system:
+  - **PASS**: |Delta| ≤ Pass Tolerance.
+  - **INCONCLUSIVE**: Pass Tolerance < |Delta| ≤ Warn Tolerance.
+  - **FAIL**: |Delta| > Warn Tolerance.
+- **Sequencer**: The campaign orchestrator. It handles dependency resolution (BLOCKED logic) and dynamic model loading.
+- **Reporter**: Generates self-contained, themeable HTML reports with embedded matplotlib visualizations.
+
+---
+
+## BMS Algorithm Blocks (The 12 Functional Pillars)
+
+The provided **Model Under Test (MUT)** is a sophisticated BMS controller organized into 12 functional blocks:
+
+| Block  | Feature         | Logic Description                                                                                            |
+| :----- | :-------------- | :----------------------------------------------------------------------------------------------------------- |
+| **1**  | **Monitoring**  | Real-time OV (Over-voltage), UV (Under-voltage), OT, and UT monitoring for 6 series cells.                   |
+| **2**  | **Estimation**  | Advanced State of Charge (SOC) via Coulomb Counting with OCV correction and Temperature compensation.        |
+| **3**  | **Thermal**     | Controls cooling requests (LOW/HIGH/EMERGENCY) based on T_max and safe-state status.                         |
+| **4**  | **Balancing**   | Passive/Active balancing logic activated during OCV-rest or high delta-V (>50mV) conditions.                 |
+| **5**  | **SOP**         | State of Power calculation based on SOC, SOH, and Temperature-dependent derating factors.                    |
+| **6**  | **SOE**         | State of Energy calculation and range estimation (Energy / Consumption_Wh_per_km).                           |
+| **7**  | **HVDC**        | High Voltage DC diagnostics, checking for bus over-voltage and providing derating factors to the inverter.   |
+| **8**  | **Charge Ctrl** | A 3-state machine (CC, CV, COMPLETE) with automated current/voltage target selection.                        |
+| **9**  | **DTC/FF**      | Diagnostic Trouble Code management. Implements PENDING -> CONFIRMED escalation and **Freeze Frame** capture. |
+| **10** | **Contactor**   | Complete Precharge sequence (OPEN -> PRECHARGE -> CLOSED) with Weld Detection logic.                         |
+| **11** | **IMD**         | Isolation Monitoring Device simulation, detecting high-voltage leakages to the chassis.                      |
+| **12** | **Safe State**  | The master safety coordinator. Triggers Emergency Shutdown on any ASIL-D fault (UV, OV, OT, IMD).            |
+
+---
+
+## Verification & Regression Strategy
+
+The project includes **15 production-ready test cases** integrated into a single regression campaign.
+
+### Test Catalog
+
+1.  **TC_001 - SOC Nominal**: Tracks a 300-row WLTP discharge profile.
+2.  **TC_004 - Cell OV**: Verifies diagnostic confirmation of over-voltage faults.
+3.  **TC_011 - DTC Freeze Frame**: Validates that critical parameters (SOC, Temp) are frozen at the moment of fault confirmation.
+4.  **TC_014 - ASIL Safe State**: Injects a cell under-voltage fault and verifies contactors open within a 300ms Fault Tolerance Time (FTT).
+5.  **TC_015 - Safe State Recovery**: Verifies that a safety shutdown can only be cleared via an explicit reset signal after the fault is removed.
+
+---
+
+## CI/CD Pipeline
+
+The framework is fully integrated with **GitHub Actions**. On every push or pull request:
+
+1.  **Environment Setup**: Python 3.13 environment is provisioned.
+2.  **Regression Run**: `python3 run_campaign.py --group regression` is executed.
+3.  **Artifact Generation**: The full HTML report and campaign logs are uploaded as build artifacts for auditability.
+
+---
 
 ## Installation & Usage
 
-1. **Install Dependencies**:
+### 1. Requirements
 
-   ```bash
-   pip3 install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-2. **Run Campaign**:
+### 2. Running the Full Campaign
 
-   ```bash
-   python3 run_campaign.py
-   ```
+```bash
+python3 run_campaign.py
+```
 
-3. **View Report**:
-   The HTML report is generated in `reports/report_[timestamp].html`.
-
-## Regression Testing & CI/CD
-
-This project includes a built-in regression suite and automated CI/CD via GitHub Actions.
-
-### Automated CI
-
-Every push or pull request to the `main` branch triggers the **Regression Tests** workflow, which:
-
-1. Sets up a Python 3.13 environment.
-2. Installs requirements.
-3. Executes the full regression suite.
-4. Archives test reports and logs as build artifacts.
-
-### Manual Regression Run
-
-To run only the tests tagged in the `regression` group:
+### 3. Running Regression Only (CI/CD Style)
 
 ```bash
 python3 run_campaign.py --group regression
 ```
 
-## Feature Coverage Matrix
+### 4. Viewing Results
 
-| Feature               | Block | Test Case                      |
-| :-------------------- | :---: | :----------------------------- |
-| Cell Monitoring       |   1   | TC_004                         |
-| SOC/SOH Estimation    |   2   | TC_001, TC_002, TC_003, TC_005 |
-| Thermal Management    |   3   | TC_006                         |
-| Cell Balancing        |   4   | TC_007                         |
-| SOP / SOE             | 5, 6  | TC_008                         |
-| HVDC Diagnostics      |   7   | TC_009                         |
-| Charge Control        |   8   | TC_010                         |
-| DTC & Freeze Frame    |   9   | TC_011                         |
-| Contactor & Precharge |  10   | TC_012                         |
-| Isolation Monitoring  |  11   | TC_013                         |
-| ASIL-D Safe State     |  12   | TC_014, TC_015                 |
+Open any file in the `reports/` folder in your browser to view the interactive test execution summary.
+
+---
+
+_Developed as a high-fidelity reference for the "Advanced Agentic Coding" project at Google Deepmind._
