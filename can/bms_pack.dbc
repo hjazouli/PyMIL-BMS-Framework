@@ -1,0 +1,51 @@
+VERSION "1.0"
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_VALTYPE_
+    SIG_GROUP_
+    SIG_VALTYPE_LIST_
+    SIG_UNIT_
+    SG_MUL_VAL_
+
+BS_:
+
+BU_: HIL_PLANT MUT
+
+BO_ 512 BMS_CellVoltages: 8 MUT
+ SG_ Cell_1_Voltage : 0|16@1+ (0.001,0) [0|5] "V" HIL_PLANT
+ SG_ Cell_2_Voltage : 16|16@1+ (0.001,0) [0|5] "V" HIL_PLANT
+ SG_ Cell_3_Voltage : 32|16@1+ (0.001,0) [0|5] "V" HIL_PLANT
+ SG_ Cell_4_Voltage : 48|16@1+ (0.001,0) [0|5] "V" HIL_PLANT
+
+BO_ 513 BMS_Temperatures: 8 MUT
+ SG_ Pack_Temp_Max : 0|8@1+ (1,-40) [-40|120] "C" HIL_PLANT
+ SG_ Pack_Temp_Avg : 8|8@1+ (1,-40) [-40|120] "C" HIL_PLANT
+
+BO_ 514 BMS_PackStatus: 8 MUT
+ SG_ SOC : 0|8@1+ (0.5,0) [0|100] "%" HIL_PLANT
+ SG_ SOH : 8|8@1+ (0.5,0) [0|100] "%" HIL_PLANT
+ SG_ Current : 16|16@1- (0.1,0) [-500|500] "A" HIL_PLANT
+
+BO_ 2047 PLANT_FAULT_CMD: 8 HIL_PLANT
+ SG_ FaultType : 0|8@1+ (1,0) [0|255] "" MUT
+ SG_ TargetCell : 8|4@1+ (1,0) [0|15] "" MUT
+ SG_ FaultValue : 12|16@1+ (0.01,0) [0|655] "" MUT
+
+BO_ 2016 UDS_REQ: 8 HIL_PLANT
+ SG_ UDS_SID : 0|8@1+ (1,0) [0|255] "" MUT
+ SG_ UDS_SubFunc : 8|8@1+ (1,0) [0|255] "" MUT

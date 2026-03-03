@@ -1,0 +1,17 @@
+campaign_name: BMS_HIL_Validation_v1.0
+model_class: mut.bms_model.BMSModel # In HIL, this might define the binary version
+interface: vcan0
+tick_ms: 100
+tests:
+  - id: TC_HIL_001
+    name: CAN_Nominal_Communication
+    module: test_cases.hil.tc_hil_001_can_nominal
+    priority: 1
+    group: regression
+
+  - id: TC_HIL_004
+    name: ASIL_Fault_Injection_Timing
+    module: test_cases.hil.tc_hil_004_fault_injection
+    priority: 2
+    group: regression
+    depends_on: TC_HIL_001

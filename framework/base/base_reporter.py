@@ -1,5 +1,5 @@
 """
-framework/reporter.py — Layer 1
+framework/base/base_reporter.py — Layer 1
 
 Responsibility:
     Generates a single, fully self-contained HTML report from campaign
@@ -135,7 +135,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 </html>"""
 
 
-class Reporter:
+class BaseReporter:
     """
     Self-contained HTML report generator.
 

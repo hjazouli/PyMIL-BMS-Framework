@@ -1,0 +1,6 @@
+pack:
+  capacity_ah: 100.0
+  nominal_voltage: 14.8
+  cell_count: 4
+  initial_soc: 60.0
+  r_internal: 0.01

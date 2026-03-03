@@ -1,5 +1,5 @@
 """
-framework/sequencer.py — Layer 1
+framework/base/base_sequencer.py — Layer 1
 
 Responsibility:
     Campaign execution engine. Reads campaign.yaml, resolves test-case
@@ -16,10 +16,10 @@ from typing import Any, Dict, Optional
 
 import yaml
 
-from .measurement import Measurement
-from .reporter import Reporter
-from .stimulator import Stimulator
-from .verdict_engine import VerdictEngine
+from .base_measurement import BaseMeasurement
+from .base_reporter import BaseReporter
+from .base_stimulator import BaseStimulator
+from .base_verdict_engine import BaseVerdictEngine
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ _VERDICT_COLOR = {
 _RESET = "\033[0m"
 
 
-class Sequencer:
+class BaseSequencer:
     """
     Campaign execution engine.
 
@@ -151,9 +151,9 @@ class Sequencer:
             # ----------------------------------------------------------
             # Fresh framework instances per test case (isolation)
             # ----------------------------------------------------------
-            stimulator = Stimulator()
-            measurement = Measurement()
-            verdict_engine = VerdictEngine()
+            stimulator = BaseStimulator() # This will need to be overridden or injected
+            measurement = BaseMeasurement()
+            verdict_engine = BaseVerdictEngine()
 
             # Inject model if configured
             if model_cls:

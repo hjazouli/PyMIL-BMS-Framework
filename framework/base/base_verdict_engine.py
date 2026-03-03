@@ -1,5 +1,5 @@
 """
-framework/verdict_engine.py — Layer 1
+framework/base/base_verdict_engine.py — Layer 1
 
 Responsibility:
     Implements a three-zone tolerance verdict system compatible with
@@ -25,7 +25,7 @@ def _worst(a: str, b: str) -> str:
     return a if _VERDICT_RANK.get(a, -1) <= _VERDICT_RANK.get(b, -1) else b
 
 
-class VerdictEngine:
+class BaseVerdictEngine:
     """
     Three-zone tolerance verdict engine.
 
