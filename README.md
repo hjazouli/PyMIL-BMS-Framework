@@ -97,9 +97,44 @@ The provided **BMSModel** (Layer 3) is a sophisticated controller organized into
 
 ---
 
-## 4. Verification & Regression Strategy
+The project includes **15 production-ready test cases** integrated into a single regression campaign. The execution follows a structured dependency tree to ensure safety logic is only verified once basic monitoring is confirmed stable.
 
-The project includes **15 production-ready test cases** integrated into a single regression campaign.
+### Test Dependency Flow
+
+```mermaid
+graph TD
+    %% Independent Start Points
+    TC_001[TC_001: SOC Nominal]
+    TC_002[TC_002: SOC Stress]
+    TC_003[TC_003: SOH Deg]
+
+    %% Level 1 Dependencies
+    TC_001 --> TC_004[TC_004: Cell OV]
+    TC_001 --> TC_005[TC_005: Cold Start]
+    TC_001 --> TC_006[TC_006: Thermal]
+    TC_001 --> TC_007[TC_007: Balancing]
+
+    %% Level 2 Dependencies
+    TC_004 --> TC_008[TC_008: SOP/SOE]
+    TC_004 --> TC_009[TC_009: HVDC Derat]
+    TC_004 --> TC_011[TC_011: DTC/FF]
+
+    %% Level 3 Dependencies
+    TC_008 --> TC_010[TC_010: Charge Ctrl]
+    TC_011 --> TC_012[TC_012: Contactor]
+
+    %% Level 4 Dependencies
+    TC_012 --> TC_013[TC_013: IMD Fault]
+
+    %% Safety Reactors
+    TC_011 & TC_012 & TC_013 --> TC_014[TC_014: ASIL Safe State]
+    TC_014 --> TC_015[TC_015: Recovery]
+
+    %% Styling
+    style TC_014 fill:#f96,stroke:#333,stroke-width:2px
+    style TC_015 fill:#f96,stroke:#333,stroke-width:2px
+    style TC_001 fill:#bbf,stroke:#333
+```
 
 ### Critical Safety Tests
 
