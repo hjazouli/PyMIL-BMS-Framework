@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+library.py
+*.swp
+*.pcap
+*.csv
+
+# Framework Artifacts
+pyxil_bms/reports/*.html
+pyxil_bms/logs/
+
+# OS
+.DS_Store
+Thumbs.db
