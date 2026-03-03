@@ -1,6 +1,6 @@
 # PyMIL & PyHIL: Modular BMS Validation Framework
 
-![CI](https://github.com/hjazouli/robot-selenium-telematics-e2e/actions/workflows/robot-tests.yml/badge.svg)
+[![Regression Tests](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/regression-tests.yml/badge.svg?branch=PyHIL)](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/regression-tests.yml)
 
 Professional Python-based Model-in-the-Loop (MIL) and Hardware-in-the-Loop (HIL) automation for automotive software validation.
 
