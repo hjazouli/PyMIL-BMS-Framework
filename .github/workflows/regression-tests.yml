@@ -2,9 +2,9 @@ name: Regression Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, PyHIL]
   pull_request:
-    branches: [main]
+    branches: [main, PyHIL]
 
 jobs:
   run-regression:
