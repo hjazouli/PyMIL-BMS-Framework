@@ -1,14 +1,14 @@
-# PyXIL-BMS: MIL Test Automation Framework
+# PyMIL-BMS: MIL Test Automation Framework
 
-PyXIL-BMS is a pure Python Model-in-the-Loop (MIL) test automation framework designed for Battery Management System (BMS) validation. It follows a strict 3-layer architecture to ensure modularity, scalability, and MUT-agnostic operation.
+PyMIL-BMS is a pure Python Model-in-the-Loop (MIL) test automation framework designed for Battery Management System (BMS) validation. It follows a strict 3-layer architecture to ensure modularity, scalability, and MUT-agnostic operation.
 
-## 🏗️ 3-Layer Architecture
+## 3-Layer Architecture
 
 1.  **LAYER 1 — FRAMEWORK**: Core infrastructure (Stimulator, Measurement, VerdictEngine, Sequencer, Reporter). Algorithm-agnostic.
 2.  **LAYER 2 — TEST CASES**: Verification scenarios implemented using the framework API. No direct imports from MUT.
 3.  **LAYER 3 — MUT**: The Model Under Test (`mut/bms_model.py`). A full-featured BMS algorithm with 12 functional blocks.
 
-## 🔋 BMS Algorithm Blocks (MUT)
+## BMS Algorithm Blocks (MUT)
 
 The `BMSModel` implements the following logic:
 
@@ -25,7 +25,7 @@ The `BMSModel` implements the following logic:
 - **Block 11**: Isolation Monitoring (IMD)
 - **Block 12**: ASIL-D Fault Detection & Safe State
 
-## 🚀 Test Campaign & Dependencies
+## Test Campaign & Dependencies
 
 The campaign consists of 15 test cases with the following dependency chain:
 
@@ -51,7 +51,7 @@ graph TD
     TC_003[TC_003: SOH Deg]
 ```
 
-## 🛠️ Installation & Usage
+## Installation & Usage
 
 1. **Install Dependencies**:
 
@@ -68,7 +68,7 @@ graph TD
 3. **View Report**:
    The HTML report is generated in `reports/report_[timestamp].html`.
 
-## 📊 Feature Coverage Matrix
+## Feature Coverage Matrix
 
 | Feature               | Block | Test Case                      |
 | :-------------------- | :---: | :----------------------------- |
