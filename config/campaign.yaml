@@ -5,90 +5,103 @@ tests:
     name: SOC_Nominal_WLTP
     module: test_cases.tc_001_soc_nominal
     priority: 1
+    group: regression
     depends_on: null
 
   - id: TC_002
     name: SOC_Stress_Pulse
     module: test_cases.tc_002_soc_stress
     priority: 2
+    group: regression
     depends_on: null
 
   - id: TC_003
     name: SOH_Degradation_Detection
     module: test_cases.tc_003_soh_degradation
     priority: 2
+    group: regression
     depends_on: null
 
   - id: TC_004
     name: Cell_OV_Detection
     module: test_cases.tc_004_cell_ov_detection
     priority: 2
+    group: regression
     depends_on: TC_001
 
   - id: TC_005
     name: Cell_UT_ColdStart
     module: test_cases.tc_005_cell_ut_cold_start
     priority: 2
+    group: regression
     depends_on: TC_001
 
   - id: TC_006
     name: Thermal_Derating
     module: test_cases.tc_006_thermal_derating
     priority: 2
+    group: regression
     depends_on: TC_001
 
   - id: TC_007
     name: Passive_Balancing
     module: test_cases.tc_007_passive_balancing
     priority: 2
+    group: regression
     depends_on: TC_001
 
   - id: TC_008
     name: SOP_SOE_Nominal
     module: test_cases.tc_008_sop_soe_nominal
     priority: 3
+    group: regression
     depends_on: TC_004
 
   - id: TC_009
     name: HVDC_Derating
     module: test_cases.tc_009_hvdc_derating
     priority: 3
+    group: regression
     depends_on: TC_004
 
   - id: TC_010
     name: Charge_CC_CV
     module: test_cases.tc_010_charge_cc_cv
     priority: 4
+    group: regression
     depends_on: TC_008
 
   - id: TC_011
     name: DTC_Freeze_Frame
     module: test_cases.tc_011_dtc_freeze_frame
     priority: 3
+    group: regression
     depends_on: TC_004
 
   - id: TC_012
     name: Contactor_Precharge
     module: test_cases.tc_012_contactor_precharge
     priority: 4
+    group: regression
     depends_on: TC_011
 
   - id: TC_013
     name: IMD_Fault
     module: test_cases.tc_013_imd_fault
     priority: 5
+    group: regression
     depends_on: TC_012
 
   - id: TC_014
     name: ASIL_Safe_State
     module: test_cases.tc_014_asil_safe_state
     priority: 6
-    # Note: Sequencer supports single dependency string. Multi-dep needs logic update if strict.
-    # For now, I'll pick the most critical one.
+    group: regression
     depends_on: [TC_011, TC_012, TC_013]
 
   - id: TC_015
     name: Safe_State_Recovery
     module: test_cases.tc_015_safe_state_recovery
     priority: 7
+    group: regression
     depends_on: TC_014

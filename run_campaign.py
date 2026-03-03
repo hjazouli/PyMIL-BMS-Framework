@@ -38,11 +38,17 @@ logging.basicConfig(
 # Run
 # ---------------------------------------------------------------------------
 from framework.sequencer import Sequencer  # noqa: E402
+import argparse
 
 if __name__ == "__main__":
-    config_path = os.path.join(_HERE, "config", "campaign.yaml")
+    parser = argparse.ArgumentParser(description="PyMIL-BMS Test Runner")
+    parser.add_argument("--config", default="config/campaign.yaml", help="Path to campaign.yaml")
+    parser.add_argument("--group", help="Filter tests by group (e.g., regression)")
+    args = parser.parse_args()
+
+    config_path = os.path.join(_HERE, args.config)
     sequencer = Sequencer(config_path=config_path)
-    results = sequencer.run()
+    results = sequencer.run(group_filter=args.group)
 
     # Return exit code based on overall campaign verdict
     has_fail = any(r["verdict"] == "FAIL" for r in results.values())

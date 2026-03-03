@@ -68,6 +68,27 @@ graph TD
 3. **View Report**:
    The HTML report is generated in `reports/report_[timestamp].html`.
 
+## Regression Testing & CI/CD
+
+This project includes a built-in regression suite and automated CI/CD via GitHub Actions.
+
+### Automated CI
+
+Every push or pull request to the `main` branch triggers the **Regression Tests** workflow, which:
+
+1. Sets up a Python 3.13 environment.
+2. Installs requirements.
+3. Executes the full regression suite.
+4. Archives test reports and logs as build artifacts.
+
+### Manual Regression Run
+
+To run only the tests tagged in the `regression` group:
+
+```bash
+python3 run_campaign.py --group regression
+```
+
 ## Feature Coverage Matrix
 
 | Feature               | Block | Test Case                      |

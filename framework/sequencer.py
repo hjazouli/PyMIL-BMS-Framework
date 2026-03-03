@@ -64,9 +64,12 @@ class Sequencer:
     # Public API
     # ------------------------------------------------------------------
 
-    def run(self) -> Dict[str, Dict[str, Any]]:
+    def run(self, group_filter: Optional[str] = None) -> Dict[str, Dict[str, Any]]:
         """
-        Execute the full test campaign and return results dict.
+        Execute the test campaign and return results dict.
+        
+        Args:
+            group_filter: Optional string to filter tests by 'group' field in campaign.yaml.
 
         Returns:
             {test_id: {name, verdict, duration_ms, details, signals_in,
@@ -105,6 +108,14 @@ class Sequencer:
             test_name: str = test_cfg.get("name", test_id)
             module_path: str = test_cfg["module"]
             depends_on: Optional[str] = test_cfg.get("depends_on")
+            test_group: Optional[str] = test_cfg.get("group")
+
+            # ----------------------------------------------------------
+            # Group filter
+            # ----------------------------------------------------------
+            if group_filter and test_group != group_filter:
+                logger.debug("Skipping %s (group %s != %s)", test_id, test_group, group_filter)
+                continue
 
             # ----------------------------------------------------------
             # Dependency check
