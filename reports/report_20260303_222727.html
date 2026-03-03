@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMS_MIL_Validation_v2.0 — Test Report</title>
+<style>
+  :root {
+    --bg: #0f1117; --card: #1a1e2e; --border: #2d3250;
+    --text: #e2e8f0; --muted: #8892a4;
+    --pass: #27ae60; --fail: #e74c3c; --inc: #f39c12; --blocked: #95a5a6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text);
+         font-family: 'Segoe UI', system-ui, sans-serif; padding: 2rem; }
+  h1 { font-size: 1.8rem; color: #7c9ef8; margin-bottom: .25rem; }
+  .meta { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+  .stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .stat { background: var(--card); border: 1px solid var(--border);
+           border-radius: 12px; padding: 1rem 1.5rem; min-width: 140px; }
+  .stat-val { font-size: 2rem; font-weight: 700; }
+  .stat-lbl { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 2rem;
+           background: var(--card); border-radius: 12px; overflow: hidden; }
+  th { background: #1f2640; color: var(--muted); padding: .75rem 1rem;
+        text-align: left; font-size: .8rem; text-transform: uppercase;
+        letter-spacing: .05em; }
+  td { padding: .75rem 1rem; border-top: 1px solid var(--border); }
+  .badge { display: inline-block; padding: .2rem .7rem; border-radius: 20px;
+            font-size: .78rem; font-weight: 600; color: #fff; }
+  .badge-PASS { background: var(--pass); }
+  .badge-FAIL { background: var(--fail); }
+  .badge-INCONCLUSIVE { background: var(--inc); }
+  .badge-BLOCKED { background: var(--blocked); }
+  .tc-section { background: var(--card); border: 1px solid var(--border);
+                 border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .tc-header { display: flex; align-items: center; gap: 1rem;
+                margin-bottom: 1rem; }
+  .tc-id { font-size: 1rem; font-weight: 700; color: #7c9ef8; }
+  .tc-name { color: var(--text); }
+  .tc-meta { font-size: .8rem; color: var(--muted); }
+  .signal-list { display: flex; flex-wrap: wrap; gap: .4rem;
+                  margin: .5rem 0 1rem; }
+  .signal-tag { background: #2d3250; border-radius: 6px; padding: .2rem .6rem;
+                 font-size: .78rem; color: #9ab3f5; }
+  .plot-img { width: 100%; max-width: 900px; border-radius: 8px;
+               margin-top: 1rem; }
+  .details { font-size: .85rem; color: var(--muted); margin-top: .5rem; }
+  .verdict-table { font-size: .78rem; }
+  .verdict-table th { font-size: .75rem; }
+  summary { cursor: pointer; font-size: .85rem; color: #9ab3f5;
+             margin-top: .75rem; }
+</style>
+</head>
+<body>
+<h1>📊 BMS_MIL_Validation_v2.0</h1>
+<p class="meta">Generated: 2026-03-03 22:27:27 &nbsp;|&nbsp; Total duration: 0.00s</p>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-val" style="color:#7c9ef8">15</div>
+    <div class="stat-lbl">Total Tests</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" style="color:var(--pass)">0</div>
+    <div class="stat-lbl">PASS</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" style="color:var(--fail)">3</div>
+    <div class="stat-lbl">FAIL</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" style="color:var(--inc)">0</div>
+    <div class="stat-lbl">INCONCLUSIVE</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" style="color:var(--blocked)">12</div>
+    <div class="stat-lbl">BLOCKED</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" style="color:#7c9ef8">0%</div>
+    <div class="stat-lbl">Pass Rate</div>
+  </div>
+</div>
+
+<h2 style="margin-bottom:1rem;color:#9ab3f5">Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>Name</th><th>Verdict</th><th>Duration (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>TC_001</strong></td><td>SOC_Nominal_WLTP</td><td><span class="badge badge-FAIL">FAIL</span></td><td>1.8</td></tr>
+    <tr><td><strong>TC_002</strong></td><td>SOC_Stress_Pulse</td><td><span class="badge badge-FAIL">FAIL</span></td><td>1.0</td></tr>
+    <tr><td><strong>TC_003</strong></td><td>SOH_Degradation_Detection</td><td><span class="badge badge-FAIL">FAIL</span></td><td>1.0</td></tr>
+    <tr><td><strong>TC_004</strong></td><td>Cell_OV_Detection</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_005</strong></td><td>Cell_UT_ColdStart</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_006</strong></td><td>Thermal_Derating</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_007</strong></td><td>Passive_Balancing</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_008</strong></td><td>SOP_SOE_Nominal</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_009</strong></td><td>HVDC_Derating</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_011</strong></td><td>DTC_Freeze_Frame</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_010</strong></td><td>Charge_CC_CV</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_012</strong></td><td>Contactor_Precharge</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_013</strong></td><td>IMD_Fault</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_014</strong></td><td>ASIL_Safe_State</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+    <tr><td><strong>TC_015</strong></td><td>Safe_State_Recovery</td><td><span class="badge badge-BLOCKED">BLOCKED</span></td><td>0.0</td></tr>
+  </tbody>
+</table>
+
+<h2 style="margin-bottom:1rem;color:#9ab3f5">Test Details</h2>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_001</span><span class="tc-name">SOC_Nominal_WLTP</span><span class="badge badge-FAIL">FAIL</span></div><div class="tc-meta">1.8 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Exception: cannot access local variable 'req' where it is not associated with a value</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_002</span><span class="tc-name">SOC_Stress_Pulse</span><span class="badge badge-FAIL">FAIL</span></div><div class="tc-meta">1.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Exception: cannot access local variable 'req' where it is not associated with a value</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_003</span><span class="tc-name">SOH_Degradation_Detection</span><span class="badge badge-FAIL">FAIL</span></div><div class="tc-meta">1.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Exception: cannot access local variable 'req' where it is not associated with a value</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_004</span><span class="tc-name">Cell_OV_Detection</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_001 = FAIL</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_005</span><span class="tc-name">Cell_UT_ColdStart</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_001 = FAIL</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_006</span><span class="tc-name">Thermal_Derating</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_001 = FAIL</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_007</span><span class="tc-name">Passive_Balancing</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_001 = FAIL</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_008</span><span class="tc-name">SOP_SOE_Nominal</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_004 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_009</span><span class="tc-name">HVDC_Derating</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_004 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_011</span><span class="tc-name">DTC_Freeze_Frame</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_004 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_010</span><span class="tc-name">Charge_CC_CV</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_008 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_012</span><span class="tc-name">Contactor_Precharge</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_011 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_013</span><span class="tc-name">IMD_Fault</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_012 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_014</span><span class="tc-name">ASIL_Safe_State</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_011 = BLOCKED</p></div>
+<div class="tc-section"><div class="tc-header"><span class="tc-id">TC_015</span><span class="tc-name">Safe_State_Recovery</span><span class="badge badge-BLOCKED">BLOCKED</span></div><div class="tc-meta">0.0 ms</div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Inputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p style="margin:.5rem 0 .25rem;font-size:.8rem;color:var(--muted)">Outputs:</p><div class="signal-list"><em style='color:var(--muted)'>none</em></div><p class="details">Blocked because TC_014 = BLOCKED</p></div>
+</body>
+</html>

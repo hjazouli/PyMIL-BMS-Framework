@@ -4,8 +4,7 @@ run_campaign.py — Single entry point for PyXIL-BMS test campaign.
 Usage:
     python run_campaign.py
 
-This script must be run from the pyxil_bms/ directory (or with PYTHONPATH
-set to include pyxil_bms/).
+This script must be run from the repository root.
 """
 
 import logging
@@ -13,8 +12,7 @@ import os
 import sys
 
 # ---------------------------------------------------------------------------
-# Ensure the pyxil_bms package root is on the Python path regardless of
-# where the user launches this script from.
+# Ensure the repository root is on the Python path.
 # ---------------------------------------------------------------------------
 _HERE = os.path.dirname(os.path.abspath(__file__))
 if _HERE not in sys.path:

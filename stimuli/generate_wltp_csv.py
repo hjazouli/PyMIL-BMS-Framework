@@ -13,7 +13,7 @@ import sys
 
 # Allow importing the MUT when run from within pyxil_bms/
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_ROOT = os.path.dirname(_HERE)   # pyxil_bms/
+_ROOT = os.path.dirname(_HERE)   # Repo root
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
