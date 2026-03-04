@@ -1,35 +1,57 @@
-# PyMIL & PyHIL: Modular BMS Validation Framework
+# PyXIL-BMS: Modular BMS Validation Framework
 
-[![Regression Tests](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/regression-tests.yml/badge.svg?branch=PyHIL)](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/regression-tests.yml)
+[![PyXIL-BMS MIL Campaign](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/mil_campaign.yml/badge.svg)](https://github.com/hjazouli/PyMIL-BMS-Framework/actions/workflows/mil_campaign.yml)
 
 Professional Python-based Model-in-the-Loop (MIL) and Hardware-in-the-Loop (HIL) automation for automotive software validation.
 
-## 1. Quick Start
+## Phase 1: Infrastructure Hardening (Complete)
 
-### MIL Mode (Pure Python)
+- **Abstract Base Layer**: Decoupled test logic from execution interfaces (`framework/base/`).
+- **MIL Implementation**: High-speed algorithmic verification core (`framework/mil/`).
+- **Structured Logging**: JSON-line event logging for traceability.
+- **Reproducible Setup**: formal `setup.py` and dependency tracking.
+- **CI/CD**: Automated linting, type checking, and test campaign execution via GitHub Actions.
+
+## 1. Installation
 
 ```bash
-python3 run_mil.py
+# Clone the repository
+git clone https://github.com/hjazouli/PyMIL-BMS-Framework.git
+cd PyMIL-BMS-Framework
+
+# Install in editable mode with development dependencies
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
 ```
 
-### HIL Mode (CAN Simulation)
+## 2. Usage
 
-1. **Setup vcan0 (Linux)**
-   ```bash
-   sudo modprobe vcan
-   sudo ip link add dev vcan0 type vcan
-   sudo ip link set up vcan0
-   ```
-2. **Run HIL Campaign**
-   ```bash
-   python3 run_hil.py
-   ```
+### MIL Campaign execution
 
-## 2. Architecture Focus
+```bash
+python run_campaign.py
+```
 
-- **MIL**: High-speed algorithmic verification.
-- **HIL**: Real-time protocol, timing, and hardware-fault verification using `python-can` and a hard-realtime scheduler.
+### Running Framework Unit Tests
 
-## 3. Test Dependencies
+```bash
+pytest tests/unit/
+```
 
-Refer to `docs/architecture.md` for a deep dive into the dual-mode data flow.
+### Manual MIL Test (Legacy)
+
+```bash
+python run_mil.py
+```
+
+## 3. Architecture
+
+- **`framework/base/`**: Abstract interfaces (Stimulator, Measurement, Verdict, etc.)
+- **`framework/mil/`**: MIL-specific implementations using internal dictionary bus.
+- **`framework/shared/`**: Shared utilities like the structured logger.
+- **`mut/`**: The Model Under Test (BMS algorithmic model).
+- **`test_cases/`**: Test cases that depend only on `framework.base`.
+
+Refer to `docs/` for detailed design specifications.

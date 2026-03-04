@@ -1,55 +1,46 @@
 """
 run_campaign.py — Single entry point for PyXIL-BMS test campaign.
-
-Usage:
-    python run_campaign.py
-
-This script must be run from the repository root.
 """
 
-import logging
+import argparse
 import os
 import sys
 
-# ---------------------------------------------------------------------------
-# Ensure the repository root is on the Python path.
-# ---------------------------------------------------------------------------
+# Ensure repository root is in path
 _HERE = os.path.dirname(os.path.abspath(__file__))
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
-# ---------------------------------------------------------------------------
-# Logging configuration — INFO to console, DEBUG to file
-# ---------------------------------------------------------------------------
-os.makedirs(os.path.join(_HERE, "reports"), exist_ok=True)
+from framework.sequencer import Sequencer
+from framework.shared.logger import logger
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)-8s %(name)s — %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(
-            os.path.join(_HERE, "reports", "campaign.log"), mode="w"
-        ),
-    ],
-)
-
-# ---------------------------------------------------------------------------
-# Run
-# ---------------------------------------------------------------------------
-from framework.sequencer import Sequencer  # noqa: E402
-import argparse
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="PyMIL-BMS Test Runner")
+def main():
+    parser = argparse.ArgumentParser(description="PyXIL-BMS MIL Campaign Runner")
     parser.add_argument("--config", default="config/campaign.yaml", help="Path to campaign.yaml")
-    parser.add_argument("--group", help="Filter tests by group (e.g., regression)")
+    parser.add_argument("--group", help="Filter tests by group")
     args = parser.parse_args()
 
-    config_path = os.path.join(_HERE, args.config)
-    sequencer = Sequencer(config_path=config_path)
-    results = sequencer.run(group_filter=args.group)
+    config_path = os.path.abspath(args.config)
+    if not os.path.exists(config_path):
+        logger.error(f"Campaign config not found: {config_path}")
+        sys.exit(1)
 
-    # Return exit code based on overall campaign verdict
-    has_fail = any(r["verdict"] == "FAIL" for r in results.values())
-    sys.exit(1 if has_fail else 0)
+    sequencer = Sequencer(config_path=config_path)
+    
+    try:
+        results = sequencer.run(group_filter=args.group)
+    except Exception as e:
+        logger.error(f"Campaign execution failed: {e}")
+        sys.exit(1)
+
+    # Exit with code 1 if any test failed
+    has_fail = any(r.get("verdict") == "FAIL" for r in results.values())
+    if has_fail:
+        logger.info("CAMPAIGN_END", message="Campaign finished with FAILURES.")
+        sys.exit(1)
+    else:
+        logger.info("CAMPAIGN_END", message="Campaign finished SUCCESSFULLY.")
+        sys.exit(0)
+
+if __name__ == "__main__":
+    main()

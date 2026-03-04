@@ -1,45 +1,61 @@
-import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 from ..base.base_measurement import BaseMeasurement
-
-logger = logging.getLogger(__name__)
+from ..shared.logger import logger
 
 class MILMeasurement(BaseMeasurement):
     """
-    MIL implementation of Measurement using in-memory dictionary.
+    MIL implementation of Measurement.
+    Stores measurements in an in-memory dictionary.
     """
 
     def __init__(self) -> None:
+        """Initialize the MIL measurement storage."""
         self._data: Dict[str, List[Tuple[float, float]]] = {}
-        logger.debug("MILMeasurement store initialised.")
+        logger.info("TEST_START", message="MILMeasurement store initialized.")
 
     def record(self, signal_name: str, value: float, timestamp: float) -> None:
+        """
+        Record a signal value at a specific timestamp.
+        
+        Args:
+            signal_name: Name of the measured signal.
+            value: Measured numeric value.
+            timestamp: Simulation timestamp of the measurement.
+        """
         self._data.setdefault(signal_name, []).append((timestamp, value))
-        logger.debug(
-            "[t=%.3fs] MIL_MEAS | %-30s = %g",
-            timestamp,
-            signal_name,
-            value,
-        )
+        logger.info("SIGNAL_MEASURED", signal_name=signal_name, value=value, timestamp=timestamp)
 
-    def get_latest(self, signal_name: str) -> Optional[float]:
+    def get_latest(self, signal_name: str) -> float:
+        """
+        Get the most recent value for a signal.
+        
+        Args:
+            signal_name: Name of the signal to retrieve.
+            
+        Returns:
+            float: The latest recorded value, or 0.0 if not found.
+        """
         series = self._data.get(signal_name)
         if not series:
-            return None
+            return 0.0
         return series[-1][1]
 
     def get_series(self, signal_name: str) -> List[Tuple[float, float]]:
+        """
+        Get the full time series of (timestamp, value) pairs for a signal.
+        
+        Args:
+            signal_name: Name of the signal.
+            
+        Returns:
+            List[Tuple[float, float]]: List of (timestamp, value) tuples.
+        """
         return self._data.get(signal_name, [])
 
-    def get_values(self, signal_name: str) -> List[float]:
-        return [v for _, v in self.get_series(signal_name)]
-
-    def available_signals(self) -> List[str]:
-        return list(self._data.keys())
-
     def clear(self) -> None:
+        """Reset all recorded measurements."""
         self._data.clear()
-        logger.debug("MILMeasurement store cleared.")
+        logger.info("TEST_START", message="MILMeasurement store cleared.")
 
     def __repr__(self) -> str:
         summary = {k: len(v) for k, v in self._data.items()}

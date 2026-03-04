@@ -1,13 +1,11 @@
 import logging
 from typing import Dict, Any
-from framework.hil.hil_stimulator import HILStimulator
-from framework.hil.hil_measurement import HILMeasurement
-from framework.base.base_verdict_engine import BaseVerdictEngine
+from framework.base import BaseStimulator, BaseMeasurement, BaseVerdictEngine
 from framework.hil.hil_ecu_controller import HILECUController
 
 logger = logging.getLogger(__name__)
 
-def run(stim: HILStimulator, meas: HILMeasurement, verdict: BaseVerdictEngine) -> Dict[str, Any]:
+def run(stim: BaseStimulator, meas: BaseMeasurement, verdict: BaseVerdictEngine) -> Dict[str, Any]:
     """
     TC_HIL_005: ECU Flash and Reset.
     Verifies UDS bootloader simulation.

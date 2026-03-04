@@ -1,14 +1,12 @@
 import logging
 import time
 from typing import Dict, Any
-from framework.hil.hil_stimulator import HILStimulator
-from framework.hil.hil_measurement import HILMeasurement
-from framework.base.base_verdict_engine import BaseVerdictEngine
+from framework.base import BaseStimulator, BaseMeasurement, BaseVerdictEngine
 from framework.hil.hil_fault_injector import HILFaultInjector
 
 logger = logging.getLogger(__name__)
 
-def run(stim: HILStimulator, meas: HILMeasurement, verdict: BaseVerdictEngine) -> Dict[str, Any]:
+def run(stim: BaseStimulator, meas: BaseMeasurement, verdict: BaseVerdictEngine) -> Dict[str, Any]:
     """
     TC_HIL_003: BusOff Recovery.
     Verifies autonomous recovery after a bus-off condition.
